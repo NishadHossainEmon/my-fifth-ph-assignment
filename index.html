@@ -12,10 +12,84 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- Font awesome -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
   </head>
-  <body>
-    
+  <body class="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+    <!-- Card -->
+    <div class="bg-white rounded-2xl shadow-md w-full max-w-md px-10 py-10">
+      <!-- Logo -->
+      <div class="flex flex-col items-center mb-6">
+        <div class="w-[70px] mb-2">
+          <img src="assets/github-logo.png" alt="" />
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">GitHub Issues Tracker</h1>
+        <p class="text-sm text-gray-400 mt-1">Sign in to manage your issues</p>
+      </div>
 
+      <!-- Username -->
+      <div class="mb-4">
+        <label class="block text-sm font-medium text-gray-800 mb-1"
+          >Username</label
+        >
+        <input
+          type="text"
+          placeholder="Enter Username"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400"
+        />
+        <p class="text-xs text-indigo-500 mt-1">Default: admin</p>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-800 mb-1"
+          >Password</label
+        >
+        <input
+          type="password"
+          placeholder="Enter Password"
+          class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400"
+        />
+        <p class="text-xs text-indigo-500 mt-1">Default: admin123</p>
+      </div>
+
+      <!-- Sign In Button -->
+      <button
+        class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg"
+      >
+        Sign In
+      </button>
+
+      <!-- Divider -->
+      <div class="flex items-center my-5">
+        <div class="flex-1 h-px bg-gray-200"></div>
+        <span class="mx-3 text-xs text-gray-400">OR</span>
+        <div class="flex-1 h-px bg-gray-200"></div>
+      </div>
+
+      <!-- Demo Credentials -->
+      <div>
+        <p class="text-xs text-center text-gray-400 mb-2">Demo Credentials:</p>
+        <div
+          class="bg-gray-50 border border-gray-200 rounded-lg px-5 py-3 text-center text-sm text-gray-700"
+        >
+          <p><span class="font-semibold">Username:</span> admin</p>
+          <p><span class="font-semibold">Password:</span> admin123</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
