@@ -26,70 +26,172 @@
       href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
-  <body class="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-    <!-- Card -->
-    <div class="bg-white rounded-2xl shadow-md w-full max-w-md px-10 py-10">
-      <!-- Logo -->
-      <div class="flex flex-col items-center mb-6">
-        <div class="w-[70px] mb-2">
-          <img src="assets/github-logo.png" alt="" />
+  <body class="bg-[#F8FAFC] min-h-screen">
+    <div id="log-in-card" class="flex items-center justify-center py-10">
+      <!-- Card -->
+      <div class="bg-white rounded-2xl shadow-md w-full max-w-md px-10 py-10">
+        <!-- Logo -->
+        <div class="flex flex-col items-center mb-6">
+          <div class="w-[70px] mb-2">
+            <img src="assets/github-logo.png" alt="" />
+          </div>
+          <h1 class="text-2xl font-bold text-gray-900">
+            GitHub Issues Tracker
+          </h1>
+          <p class="text-sm text-gray-400 mt-1">
+            Sign in to manage your issues
+          </p>
         </div>
-        <h1 class="text-2xl font-bold text-gray-900">GitHub Issues Tracker</h1>
-        <p class="text-sm text-gray-400 mt-1">Sign in to manage your issues</p>
-      </div>
 
-      <!-- Username -->
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-800 mb-1"
-          >Username</label
+        <!-- Username -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-800 mb-1"
+            >Username</label
+          >
+          <input
+            id="user-name"
+            type="text"
+            placeholder="Enter Username"
+            class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400"
+          />
+          <p class="text-xs text-indigo-500 mt-1">Default: admin</p>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-800 mb-1"
+            >Password</label
+          >
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter Password"
+            class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400"
+          />
+          <p class="text-xs text-indigo-500 mt-1">Default: admin123</p>
+        </div>
+
+        <!-- Sign In Button -->
+        <button
+          onclick="loadMainPage()"
+          id="sign-in-btn"
+          class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg active:scale-95 active:bg-indigo-800 transition-all duration-150"
         >
-        <input
-          type="text"
-          placeholder="Enter Username"
-          class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400"
-        />
-        <p class="text-xs text-indigo-500 mt-1">Default: admin</p>
-      </div>
+          Sign In
+        </button>
 
-      <!-- Password -->
-      <div class="mb-6">
-        <label class="block text-sm font-medium text-gray-800 mb-1"
-          >Password</label
-        >
-        <input
-          type="password"
-          placeholder="Enter Password"
-          class="w-full border border-gray-300 rounded-lg px-4 py-3 text-sm text-gray-800 placeholder-gray-400"
-        />
-        <p class="text-xs text-indigo-500 mt-1">Default: admin123</p>
-      </div>
+        <!-- Divider -->
+        <div class="flex items-center my-5">
+          <div class="flex-1 h-px bg-gray-200"></div>
+          <span class="mx-3 text-xs text-gray-400">OR</span>
+          <div class="flex-1 h-px bg-gray-200"></div>
+        </div>
 
-      <!-- Sign In Button -->
-      <button
-        class="w-full bg-indigo-600 text-white font-semibold py-3 rounded-lg"
-      >
-        Sign In
-      </button>
-
-      <!-- Divider -->
-      <div class="flex items-center my-5">
-        <div class="flex-1 h-px bg-gray-200"></div>
-        <span class="mx-3 text-xs text-gray-400">OR</span>
-        <div class="flex-1 h-px bg-gray-200"></div>
-      </div>
-
-      <!-- Demo Credentials -->
-      <div>
-        <p class="text-xs text-center text-gray-400 mb-2">Demo Credentials:</p>
-        <div
-          class="bg-gray-50 border border-gray-200 rounded-lg px-5 py-3 text-center text-sm text-gray-700"
-        >
-          <p><span class="font-semibold">Username:</span> admin</p>
-          <p><span class="font-semibold">Password:</span> admin123</p>
+        <!-- Demo Credentials -->
+        <div>
+          <p class="text-xs text-center text-[#F8FAFC] mb-2">
+            Demo Credentials:
+          </p>
+          <div
+            class="bg-gray-50 border border-gray-200 rounded-lg px-5 py-3 text-center text-sm text-gray-700"
+          >
+            <p><span class="font-semibold">Username:</span> admin</p>
+            <p><span class="font-semibold">Password:</span> admin123</p>
+          </div>
         </div>
       </div>
     </div>
+    
+    <!-- Main Page -->
+    <section id="main-page" class="hidden">
+      <!-- Navbar -->
+    <nav class="bg-white px-6 py-4 flex items-center justify-between mb-7">
+      <div class="flex items-center gap-2">
+        <img src="assets/github-logo.png" class="w-7" alt="" />
+        <span class="font-semibold text-gray-900 text-sm"
+          >GitHub Issues Tracker</span
+        >
+      </div>
+      <div class="flex items-center gap-3">
+        <label class="input">
+          <svg
+            class="h-[1em] opacity-50"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input type="search" required placeholder="Search issues..." />
+        </label>
+        <button class="btn btn-primary">+ New Issue</button>
+      </div>
+    </nav>
+
+    <div
+      class="w-[80%] mx-auto bg-white p-4 flex gap-3 rounded-md shadow-sm mb-3"
+    >
+      <button class="buttons btn btn-primary px-8">All</button>
+      <button class="buttons btn px-8">Open</button>
+      <button class="buttons btn px-8">Closed</button>
+    </div>
+
+    <div
+      class="w-[80%] mx-auto bg-white rounded-md rounded-bl-none rounded-br-none shadow-sm border border-gray-100 px-6 py-3 flex items-center justify-between border-b-2"
+    >
+      <!-- Left: Icon + Text -->
+      <div class="flex items-center gap-4">
+        <!-- Icon -->
+        <div
+          class="w-12 h-12 bg-[#ECE4FF] flex justify-center items-center rounded-full"
+        >
+          <img class="w-8" src="assets/Aperture.png" alt="" />
+        </div>
+        <!-- Text -->
+        <div>
+          <h2 id="num-of-data" class="text-base font-bold text-gray-900"></h2>
+          <p class="text-sm text-gray-400">
+            Track and manage your project issues
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: Legend -->
+      <div class="flex items-center gap-5">
+        <div class="flex items-center gap-2">
+          <span
+            class="w-2.5 h-2.5 rounded-full bg-green-500 inline-block"
+          ></span>
+          <span class="text-sm text-gray-600">Open</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span
+            class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"
+          ></span>
+          <span class="text-sm text-gray-600">Closed</span>
+        </div>
+      </div>
+    </div>
+    
+    <section id="card-box" class="w-[80%] mx-auto bg-white p-8 grid grid-cols-3 gap-3">
+      <!-- Issue Card -->
+    
+    </section>
+    </section>
+
+
+    
+
+    <script src="script.js"></script>
   </body>
 </html>
