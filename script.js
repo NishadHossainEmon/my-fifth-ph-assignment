@@ -4,6 +4,7 @@ const signInBtn = document.querySelector("#sign-in-btn");
 const logInCard = document.querySelector("#log-in-card");
 const mainPage = document.querySelector("#main-page");
 const cardBox = document.querySelector("#card-box");
+const spinner = document.querySelector("#spinner");
 
 const loadMainPage = () => {
   const userInput = userName.value;
@@ -31,6 +32,19 @@ const loadApi = () => {
 
 loadApi();
 
+// "id": 33,
+// "title": "Add bulk operations support",
+// "description": "Allow users to perform bulk actions like delete, update status on multiple items at once.",
+// "status": "open",
+// "labels": [
+// "enhancement"
+// ],
+// "priority": "low",
+// "author": "bulk_barry",
+// "assignee": "",
+// "createdAt": "2024-02-02T10:00:00Z",
+// "updatedAt": "2024-02-02T10:00:00Z"
+
 const loadModal = async (id) => {
   console.log(id);
   const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
@@ -45,7 +59,8 @@ const loadModal = async (id) => {
 
   <!-- Status + Author + Date -->
   <div class="flex items-center gap-2 mb-4">
-    <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>
+   ${data.data.status === 'open' ? ` <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>` : ` <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>`}
+   
     <span class="text-sm text-gray-400">• ${data.data.status === "open" ? "Opened" : "Closed"} by ${data.data.author.toUpperCase()} • ${data.data.createdAt}</span>
   </div>
 
@@ -179,10 +194,12 @@ const btns = document.querySelectorAll(".buttons");
 
 btns.forEach((btn) => {
   btn.addEventListener("click", () => {
+    spinner.classList.remove('hidden')
     displayIndividualCards(btn.textContent);
     btns.forEach((ele) => {
       ele.classList.remove("btn-primary");
     });
     btn.classList.add("btn-primary");
+    spinner.classList.add('hidden')
   });
 });
