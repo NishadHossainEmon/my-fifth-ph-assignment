@@ -3,6 +3,7 @@ const password = document.querySelector("#password");
 const signInBtn = document.querySelector("#sign-in-btn");
 const logInCard = document.querySelector("#log-in-card");
 const mainPage = document.querySelector("#main-page");
+const cardBox = document.querySelector("#card-box");
 
 const loadMainPage = () => {
   const userInput = userName.value;
@@ -32,14 +33,12 @@ loadApi();
 
 const displayCards = (arr) => {
   document.querySelector("#num-of-data").textContent = `${arr.length} Issues`;
-  const cardBox = document.querySelector("#card-box");
   cardBox.innerHTML = "";
   arr.forEach((obj) => {
     const div = document.createElement("div");
+    div.className =
+      "card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full";
     div.innerHTML = `
-      <div
-        class="card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full"
-      >
         <!-- Top colored border -->
         ${
           obj.status.toLowerCase() === "open"
@@ -103,8 +102,6 @@ const displayCards = (arr) => {
           <p class="text-sm text-gray-400">#${obj.id} by ${obj.author}</p>
           <p class="text-sm text-gray-400">${obj.createdAt}</p>
         </div>
-      </div>
-       
       `;
     cardBox.appendChild(div);
   });
@@ -126,9 +123,14 @@ const displayIndividualCards = (content) => {
     });
   } else {
     cards.forEach((card) => {
-       card.classList.remove("hidden");
+      card.classList.remove("hidden");
     });
   }
+
+  const filtered = [...cards].filter(card => !card.classList.contains('hidden'))
+
+  document.querySelector("#num-of-data").textContent = `${filtered.length} issues`
+
 };
 
 const btns = document.querySelectorAll(".buttons");
@@ -142,3 +144,4 @@ btns.forEach((btn) => {
     btn.classList.add("btn-primary");
   });
 });
+
