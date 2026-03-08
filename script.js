@@ -4,7 +4,10 @@ const signInBtn = document.querySelector("#sign-in-btn");
 const logInCard = document.querySelector("#log-in-card");
 const mainPage = document.querySelector("#main-page");
 const cardBox = document.querySelector("#card-box");
+const cardBox2 = document.querySelector("#card-box2");
 const spinner = document.querySelector("#spinner");
+const searchInput = document.querySelector("#search-input");
+const searchBtn = document.querySelector("#search-btn");
 
 const loadMainPage = () => {
   const userInput = userName.value;
@@ -59,7 +62,7 @@ const loadModal = async (id) => {
 
   <!-- Status + Author + Date -->
   <div class="flex items-center gap-2 mb-4">
-   ${data.data.status === 'open' ? ` <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>` : ` <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>`}
+   ${data.data.status === "open" ? ` <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>` : ` <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>`}
    
     <span class="text-sm text-gray-400">• ${data.data.status === "open" ? "Opened" : "Closed"} by ${data.data.author.toUpperCase()} • ${data.data.createdAt}</span>
   </div>
@@ -91,7 +94,6 @@ const loadModal = async (id) => {
 
 const displayCards = (arr) => {
   document.querySelector("#num-of-data").textContent = `${arr.length} Issues`;
-
   arr.forEach((obj) => {
     cardBox.innerHTML += `
       <div onclick="loadModal(${obj.id})" class = "card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full">
@@ -158,7 +160,7 @@ const displayCards = (arr) => {
           <p class="text-sm text-gray-400">#${obj.id} by ${obj.author}</p>
           <p class="text-sm text-gray-400">${obj.createdAt}</p>
         </div>
-      `;
+      `
   });
 };
 
@@ -194,12 +196,99 @@ const btns = document.querySelectorAll(".buttons");
 
 btns.forEach((btn) => {
   btn.addEventListener("click", () => {
-    spinner.classList.remove('hidden')
+    spinner.classList.remove("hidden");
     displayIndividualCards(btn.textContent);
     btns.forEach((ele) => {
       ele.classList.remove("btn-primary");
     });
     btn.classList.add("btn-primary");
-    spinner.classList.add('hidden')
+    setTimeout(() => {
+      spinner.classList.add("hidden");
+    }, 500);
+  });
+});
+
+searchBtn.addEventListener("click", async () => {
+
+  const searchText = searchInput.value;
+  searchInput.value = ''
+  console.log(searchText)
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`;
+  const res = await fetch(url)
+  const data = await res.json()
+  const arr = data.data
+
+  cardBox.classList.add('hidden')
+  cardBox2.classList.remove('hidden')
+
+  document.querySelector("#num-of-data").textContent = `${arr.length} Issues`;
+  cardBox2.innerHTML = ''
+  arr.forEach((obj) => {
+    cardBox2.innerHTML += `
+      <div onclick="loadModal(${obj.id})" class = "card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full">
+        <!-- Top colored border -->
+        ${
+          obj.status.toLowerCase() === "open"
+            ? '<div class="h-1 bg-green-400"></div>'
+            : '<div class="h-1 bg-purple-400"></div>'
+        }
+
+        <!-- Card Body -->
+        <div class="px-5 py-4">
+          <!-- Top Row: Status Icon + Priority Badge -->
+          <div class="flex items-center justify-between mb-3">
+            <!-- Dashed circle icon -->
+            <div>
+              ${
+                obj.status.toLowerCase() === "open"
+                  ? '<img src="assets/Open-Status.png">'
+                  : '<img src="assets/closed.png" >'
+              }
+            </div>
+            <!-- HIGH badge -->
+            <span
+               class="${obj.priority === "high" ? "bg-red-50 text-red-500" : obj.priority === "medium" ? " bg-yellow-50  text-yellow-600" : "bg-gray-100 text-gray-500"} text-xs font-bold px-4 py-1.5 rounded-full"
+               >${obj.priority.toUpperCase()}</span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="text-base font-bold text-gray-900 mb-2">
+            ${obj.title}
+          </h3>
+
+          <!-- Description -->
+          <p class="line-clamp-2 text-sm text-gray-400 mb-4">
+            ${obj.description}
+          </p>
+
+          <!-- Labels -->
+          <div class="flex items-center gap-2">
+            ${
+              obj.labels[0]
+                ? `
+            <span class="flex items-center gap-1.5 bg-yellow-50  text-yellow-600 text-xs font-bold px-2 py-1.5 rounded-full border border-red-200">${obj.labels[0].toUpperCase()}
+            </span>`
+                : ""
+            }
+
+            ${
+              obj.labels[1]
+                ? `
+            <span class="flex items-center gap-1.5 bg-yellow-50 text-yellow-600 text-xs font-bold px-2 py-1.5 rounded-full border border-yellow-200">${obj.labels[1].toUpperCase()}
+            </span>`
+                : ""
+            }
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-gray-100 mx-0"></div>
+
+        <!-- Footer -->
+        <div class="px-5 py-3">
+          <p class="text-sm text-gray-400">#${obj.id} by ${obj.author}</p>
+          <p class="text-sm text-gray-400">${obj.createdAt}</p>
+        </div>
+      `
   });
 });
