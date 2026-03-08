@@ -31,14 +31,55 @@ const loadApi = () => {
 
 loadApi();
 
+const loadModal = async (id) => {
+  console.log(id);
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+  const res = await fetch(url);
+  const data = await res.json();
+
+  const modalContainer = document.querySelector("#modal-container");
+
+  modalContainer.innerHTML = `
+  <!-- Title -->
+  <h2 class="text-xl font-bold text-gray-900 mb-3">${data.data.title}</h2>
+
+  <!-- Status + Author + Date -->
+  <div class="flex items-center gap-2 mb-4">
+    <span class="bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.status === "open" ? "Opened" : "Closed"}</span>
+    <span class="text-sm text-gray-400">• ${data.data.status === "open" ? "Opened" : "Closed"} by ${data.data.author.toUpperCase()} • ${data.data.createdAt}</span>
+  </div>
+
+  <!-- Labels -->
+  <div class="flex gap-2 mb-4">
+   ${data.data.labels[0] ? `<span class="bg-yellow-50 text-yellow-600 text-xs font-bold px-3 py-1.5 rounded-full border border-red-200">${data.data.labels[0].toUpperCase()}</span>` : ""}
+    ${data.data.labels[1] ? `<span class="bg-yellow-50 text-yellow-600 text-xs font-bold px-3 py-1.5 rounded-full border border-yellow-200">${data.data.labels[1].toUpperCase()}</span>` : ""}
+    
+  </div>
+
+  <!-- Description -->
+  <p class="text-sm text-gray-500 mb-6">${data.data.description}</p>
+
+  <!-- Assignee + Priority -->
+  <div class="bg-gray-50 rounded-lg px-5 py-4 flex justify-between mb-6">
+    <div>
+      <p class="text-xs text-gray-400 mb-1">Assignee:</p>
+      <p class="text-sm font-bold text-gray-800">${data.data.assignee === "" ? "None" : data.data.assignee.toUpperCase()}</p>
+    </div>
+    <div>
+      <p class="text-xs text-gray-400 mb-1">Priority:</p>
+      <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.priority.toUpperCase()}</span>
+    </div>
+  </div>
+   `;
+  document.querySelector("#my_modal_5").showModal();
+};
+
 const displayCards = (arr) => {
   document.querySelector("#num-of-data").textContent = `${arr.length} Issues`;
-  cardBox.innerHTML = "";
+
   arr.forEach((obj) => {
-    const div = document.createElement("div");
-    div.className =
-      "card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full";
-    div.innerHTML = `
+    cardBox.innerHTML += `
+      <div onclick="loadModal(${obj.id})" class = "card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full">
         <!-- Top colored border -->
         ${
           obj.status.toLowerCase() === "open"
@@ -103,7 +144,6 @@ const displayCards = (arr) => {
           <p class="text-sm text-gray-400">${obj.createdAt}</p>
         </div>
       `;
-    cardBox.appendChild(div);
   });
 };
 
@@ -127,10 +167,12 @@ const displayIndividualCards = (content) => {
     });
   }
 
-  const filtered = [...cards].filter(card => !card.classList.contains('hidden'))
+  const filtered = [...cards].filter(
+    (card) => !card.classList.contains("hidden"),
+  );
 
-  document.querySelector("#num-of-data").textContent = `${filtered.length} issues`
-
+  document.querySelector("#num-of-data").textContent =
+    `${filtered.length} issues`;
 };
 
 const btns = document.querySelectorAll(".buttons");
@@ -144,4 +186,3 @@ btns.forEach((btn) => {
     btn.classList.add("btn-primary");
   });
 });
-
