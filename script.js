@@ -86,7 +86,9 @@ const loadModal = async (id) => {
     </div>
     <div>
       <p class="text-xs text-gray-400 mb-1">Priority:</p>
-      <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">${data.data.priority.toUpperCase()}</span>
+      <span
+        class="${data.data.priority === "high" ? "bg-red-50 text-red-500" : data.data.priority === "medium" ? " bg-yellow-50  text-yellow-600" : "bg-gray-100 text-gray-500"} text-xs font-bold px-4 py-1.5 rounded-full"
+        >${data.data.priority.toUpperCase()}</span>
     </div>
   </div>
    `;
@@ -215,7 +217,7 @@ searchBtn.addEventListener("click", async () => {
   btns.forEach((ele) => {
     ele.classList.remove("btn-primary");
   });
-  document.querySelector('.all').classList.add('btn-primary')
+  document.querySelector(".all").classList.add("btn-primary");
 
   const searchText = searchInput.value;
   searchInput.value = "";
