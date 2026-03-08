@@ -8,6 +8,7 @@ const cardBox2 = document.querySelector("#card-box2");
 const spinner = document.querySelector("#spinner");
 const searchInput = document.querySelector("#search-input");
 const searchBtn = document.querySelector("#search-btn");
+const btns = document.querySelectorAll(".buttons");
 
 const loadMainPage = () => {
   const userInput = userName.value;
@@ -160,7 +161,7 @@ const displayCards = (arr) => {
           <p class="text-sm text-gray-400">#${obj.id} by ${obj.author}</p>
           <p class="text-sm text-gray-400">${obj.createdAt}</p>
         </div>
-      `
+      `;
   });
 };
 
@@ -192,10 +193,10 @@ const displayIndividualCards = (content) => {
     `${filtered.length} issues`;
 };
 
-const btns = document.querySelectorAll(".buttons");
-
 btns.forEach((btn) => {
   btn.addEventListener("click", () => {
+    cardBox.classList.remove("hidden");
+    cardBox2.classList.add("hidden");
     spinner.classList.remove("hidden");
     displayIndividualCards(btn.textContent);
     btns.forEach((ele) => {
@@ -209,23 +210,29 @@ btns.forEach((btn) => {
 });
 
 searchBtn.addEventListener("click", async () => {
+  spinner.classList.remove("hidden");
+
+  btns.forEach((ele) => {
+    ele.classList.remove("btn-primary");
+  });
+  document.querySelector('.all').classList.add('btn-primary')
 
   const searchText = searchInput.value;
-  searchInput.value = ''
-  console.log(searchText)
+  searchInput.value = "";
+  console.log(searchText);
   const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`;
-  const res = await fetch(url)
-  const data = await res.json()
-  const arr = data.data
+  const res = await fetch(url);
+  const data = await res.json();
+  const arr = data.data;
 
-  cardBox.classList.add('hidden')
-  cardBox2.classList.remove('hidden')
+  cardBox.classList.add("hidden");
+  cardBox2.classList.remove("hidden");
 
   document.querySelector("#num-of-data").textContent = `${arr.length} Issues`;
-  cardBox2.innerHTML = ''
+  cardBox2.innerHTML = "";
   arr.forEach((obj) => {
     cardBox2.innerHTML += `
-      <div onclick="loadModal(${obj.id})" class = "card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full">
+      <div onclick="loadModal(${obj.id})" class = "card2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden h-full">
         <!-- Top colored border -->
         ${
           obj.status.toLowerCase() === "open"
@@ -289,6 +296,9 @@ searchBtn.addEventListener("click", async () => {
           <p class="text-sm text-gray-400">#${obj.id} by ${obj.author}</p>
           <p class="text-sm text-gray-400">${obj.createdAt}</p>
         </div>
-      `
+      `;
   });
+  setTimeout(() => {
+    spinner.classList.add("hidden");
+  }, 500);
 });
